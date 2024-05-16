@@ -1,0 +1,30 @@
+name: Continuous Integration
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+permissions: read-all
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    strategy:
+      fail-fast: true
+      matrix:
+        nodejs: ['12', '14', '16', '18', '20', '21']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.nodejs }}
+      - run: npm ci
+      - run: npm run genprotobuf
+      - name: Lint code
+        run: npm run lint
+      - name: Test
+        run: npm run test:ci
+      - name: Attempt browser build
+        run: npm run build:browser

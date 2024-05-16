@@ -1,7 +1,7 @@
 'use strict';
 // Copyright (C) 2016 SignalFx, Inc. All rights reserved.
 
-var wsmh = require('../../lib/client/signalflow/websocket_message_parser.js');
+var wsmh = require('../lib/websocket_message_parser.js');
 var expect = require('chai').expect;
 
 describe('should properly convert a typed array converted from typed array to a snowflake ID', function () {

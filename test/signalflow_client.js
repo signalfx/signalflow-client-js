@@ -1,7 +1,7 @@
 'use strict';
 // Copyright (C) 2016 SignalFx, Inc. All rights reserved.
 
-var sflowclient = require('../signalflow_client.js');
+var sflowclient = require('../lib/signalflow_client.js');
 var expect = require('chai').expect;
 
 describe('The SignalFlow Client', function () {

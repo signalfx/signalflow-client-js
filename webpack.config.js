@@ -6,7 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const baseConfig = {
   mode: "development",
   devtool: "inline-source-map",
-  entry: "./lib/index_browser.js",
+  entry: "./lib/signalflow_browser.js",
   output: {
     filename: "signalflow.js",
     path: path.resolve(__dirname, "build"),
@@ -31,8 +31,7 @@ const baseConfig = {
   },
   plugins: [
     new webpack.NormalModuleReplacementPlugin(/^ws$/, (resource) => {
-      const pathToWsReplacement = path.resolve(__dirname, 'lib', 'browser', 'ws.js');
-      resource.request = path.relative(resource.context, pathToWsReplacement);
+      resource.request = './browser/ws.js';
     }),
     new CopyPlugin({
       patterns: [
