@@ -43,7 +43,7 @@ Complete code example for executing a computation
 var signalflow = require('signalflow');
 
 var wsCallback = function(evt) {
-    console.log('Hello, I'm a custom callback: ' + evt);
+    console.log("Hello, I'm a custom callback: " + evt);
 }
 
 var myToken = '[ACCESS_TOKEN]';
