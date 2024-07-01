@@ -9,35 +9,38 @@
 
 # SignalFlow library for JavaScript
 
-## Installation
+## Install the client
 
 To install using npm:
 
 ```sh
-$ npm install signalflow
+npm install signalflow
 ```
 
 ### Supported Node.js versions
 
 | Version | Node.js         |
 | ------- | --------------- |
-| `8.x.x` | `>=12.10.0 <=20` |
-| `7.4.x` | `>=8.0.0 <18`   |
-| `7.3.1` | `>=8.0.0 <11`   |
+| `8.x.x` | `>=12.10.0 <= 20` |
+| `7.4.x` | `>=8.0.0 < 18`   |
+| `7.3.1` | `>=8.0.0 < 11`   |
 
 ## Usage
 
-### Configuring the Signalflow websocket endpoint
+### Configure the SignalFlow websocket endpoint
 
-If the websocket endpoint is not set manually, this library uses the `us0` realm by default.
-If you are not in this realm, you will need to explicitly set the
-endpoint urls above. To determine if you are in a different realm and need to
-explicitly set the endpoints, check your profile page in the SignalFx
-web application.
+The default realm is ``us0``, unless you manually set the websocket endpoint.
+If you aren't in the ``us0`` realm, you must explicitly set the above URL endpoints.
 
-### Examples
+To determine which realm you are in:
 
-Complete code example for executing a computation
+1. Log in to the SignalFx web application.
+2. In the left-side menu, navigate to **Settings**, then **View Profile**.
+3. Select the **Organizations** tab to view your realm.
+
+### Example
+
+The following is a complete code example for executing a computation:
 
 ```js
 var signalflow = require('signalflow');
@@ -64,38 +67,44 @@ var handle = client.execute({
 handle.stream(function(err, data) { console.log(data); });
 ```
 
-Object `options` is an optional map and may contains following fields:
+The `options` object is an optional map and can contain following fields:
 
-- **signalflowEndpoint** - string, `wss://stream.us0.signalfx.com` by default. Override this if you are in a different realm than `us0`.
-- **apiEndpoint** - string, `https://api.us0.signalfx.com` by default. Override this if you are in a different realm than `us0`.
-- **webSocketErrorCallback** - function, Throws an Error event by default. Override this if you want to handle a websocket error differently.
+| Field                    | Type     | Default                                                                                            |
+|--------------------------|----------|----------------------------------------------------------------------------------------------------|
+| `signalflowEndpoint`     | string   | `wss://stream.us0.signalfx.com`. If you aren't in `us0`, change the realm.                         |
+| `apiEndpoint`            | string   | `https://api.us0.signalfx.com`. If you aren't in `us0`, change the realm.                          |
+| `webSocketErrorCallback` | function | Throws an error event. If you want to handle the websocket error differently, change the behavior. |
 
-**Note**: A token created via the REST API is necessary to use this API. API Access tokens intended for ingest are not allowed.
+> **Note**: A token created using the REST API is necessary to use this API. API Access tokens intended for ingest are not allowed.
 
-#### API Options
+### API options
 
-Parameters to the execute method are as follows :
+The `execute()` method accepts the following parameters:
 
-- **program** (string) - Required field. The signalflow to be run.
-- **start** (int | string) - A milliseconds since epoch number or a string representing a relative time : e.g. -1h. Defaults to now.
-- **stop** (int | string) - A milliseconds since epoch number or a string representing a relative time : e.g. -30m. Defaults to infinity.
-- **resolution** (int) - The interval across which to calculate, in 1000 millisecond intervals. Defaults to 1000.
-- **maxDelay** (int) - The maximum time to wait for a datapoint to arrive, in 10000 millisecond intervals. Defaults to dynamic.
-- **bigNumber** (boolean) - True if returned values require precision beyond MAX_SAFE_INTEGER. Returns all values in data messages as bignumber objects as per https://www.npmjs.com/package/bignumber.js Defaults to false.
-- **immediate** (boolean) - Whether to adjust the stop timestamp so that the computation doesn't wait for future data to be available.
+| Parameter    | Type               | Description                                                                                                     | Default                        | Required |
+|--------------|--------------------|-----------------------------------------------------------------------------------------------------------------|--------------------------------|----------|
+| `program`    | string             | The signalflow program to be run.                                                                               |                                | Yes      |
+| `start`      | int \| string       | A milliseconds-since-epoch number or a string representing a relative time. For example: `-1h`.                 | `now`                          | No       |
+| `stop`       | int \| string       | A milliseconds-since-epoch number or a string representing a relative time. For example: `-30m`.                | `infinity`                     | No       |
+| `resolution` | int                | The interval across which to calculate, in 1000 millisecond intervals.                                          | `1000`                         | No       |
+| `maxDelay`   | int                | The maximum time to wait for a datapoint to arrive, in 10000 millisecond intervals.                             | `dynamic`                      | No       |
+| `bigNumber`  | boolean            | Sets whether to return all values in data messages as BigNumber objects. Set to true if you require returned values to have precision beyond `MAX_SAFE_INTEGER`. For more information, see [bignumber.js](https://www.npmjs.com/package/bignumber.js). | `false`                        | No       |
+| `immediate`  | boolean            | Sets whether to adjust the stop timestamp so that the computation doesn't wait for future data to be available. |                                | No       |
 
-#### Computation Objects
+### Computation object methods
 
-The returned object from an execute call possesses the following methods:
+Calls to `execute()` return an object that has the following methods:
 
-- **stream** (function (err, data)) - accepts a function and will call the function with computation messages when available. It returns multiple types of messages, detailed below. This follows error first callback conventions, so data is returned in the second argument if no errors occurred.
-- **close** () - terminates the computation.
-- **get_known_tsids** () - gets all known timeseries ID's for the current computation
-- **get_metadata** (string) - gets the metadata message associated with the specific timeseries ID.
+| Method            | Parameters              | Description                                                           |
+|-------------------|-------------------------|-----------------------------------------------------------------------|
+| `stream`          | (function (err, data))  | Accepts a function and calls the function with computation messages when available. Returns multiple types of messages, each of which is detailed below. Following error-first callback conventions, data is returned in the second argument if no errors occurred. |
+| `close`           | ()                      | Terminates the computation.                                           |
+| `get_known_tsids` | ()                      | Gets all known timeseries IDs for the current computation.            |
+| `get_metadata`    | (string)                | Gets the metadata message associated with the specific timeseries ID. |
 
-#### Stream Message Types
+### Stream message types
 
-- Metadata
+**Metadata:**
 
 ```js
 {
@@ -110,7 +119,7 @@ The returned object from an execute call possesses the following methods:
 }
 ```
 
-- Data
+**Data:**
 
 ```js
 {
@@ -127,7 +136,7 @@ The returned object from an execute call possesses the following methods:
 }
 ```
 
-- Event
+**Event:**
 
 ```js
 {
@@ -144,24 +153,31 @@ The returned object from an execute call possesses the following methods:
 }
 ```
 
-#### Usage in a Web Browser
+### Use in a web browser
 
-The signalflow client can be built for usage in a browser. This is accomplished via the following commands.
+The signalflow client can be built for use in a browser. 
 
-```
-$ npm install
-$ npm run build:browser
-The output can be found at ./build/signalflow.js
-```
+1. Run the following commands:
 
-It can then be loaded as usual via a script tag
+   ```
+   npm install
+   npm run build:browser
+   ```
 
-```
-<script src="build/signalflow.js" type="text/javascript"></script>
-```
+   Expected output:
 
-Once loaded, signalfx global will be created(window.signalfx). Note that only the SignalFlow package is included in this built file.
+   ```
+   The output can be found at ./build/signalflow.js
+   ```
+
+2. Load the client using a `script` tag:
+
+   ```
+   <script src="build/signalflow.js" type="text/javascript"></script>
+   ```
+
+   Once loaded, signalfx global is created(window.signalfx). Note that the built file only includes the SignalFlow package.
 
 ## License
 
-Apache Software License v2 © [Splunk](https://ww.splunk.com)
+Apache Software License v2 © [Splunk](https://www.splunk.com)
