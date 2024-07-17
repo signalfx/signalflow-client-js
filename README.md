@@ -30,7 +30,14 @@ npm install signalflow
 ### Configure the SignalFlow websocket endpoint
 
 The default realm is ``us0``, unless you manually set the websocket endpoint.
-If you aren't in the ``us0`` realm, you must explicitly set the above URL endpoints.
+If you aren't in the ``us0`` realm, you must explicitly set the following
+environment variables:
+
+| Environment variable                          | Endpoint                                        |
+|-----------------------------------------------|-------------------------------------------------|
+| `DEFAULT_INGEST_ENDPOINT`                     | `https://ingest.<realm>.signalfx.com`           |
+| `DEFAULT_API_ENDPOINT`                        | `https://api.<realm>.signalfx.com`              |
+| `DEFAULT_SIGNALFLOW_WEBSOCKET_ENDPOINT`       | `wss://stream.<realm>.signalfx.com`             |
 
 To determine which realm you are in:
 
@@ -69,11 +76,12 @@ handle.stream(function(err, data) { console.log(data); });
 
 The `options` object is an optional map and can contain following fields:
 
-| Field                    | Type     | Default                                                                                            |
-|--------------------------|----------|----------------------------------------------------------------------------------------------------|
-| `signalflowEndpoint`     | string   | `wss://stream.us0.signalfx.com`. If you aren't in `us0`, change the realm.                         |
-| `apiEndpoint`            | string   | `https://api.us0.signalfx.com`. If you aren't in `us0`, change the realm.                          |
-| `webSocketErrorCallback` | function | Throws an error event. If you want to handle the websocket error differently, change the behavior. |
+| Field                    | Type     | Description                                                               | Default                                                                                            |
+|--------------------------|----------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `signalflowEndpoint`     | string   | Sets the SignalFlow endpoint.                                             | `wss://stream.us0.signalfx.com`. If you aren't in `us0`, change the realm.                         |
+| `apiEndpoint`            | string   | Sets the API endpoint.                                                    | `https://api.us0.signalfx.com`. If you aren't in `us0`, change the realm.                          |
+| `webSocketErrorCallback` | function | Sets the callback function that is invoked when a WebSocket error occurs. | Throws an error event. If you want to handle the WebSocket error differently, change the behavior. |
+
 
 > **Note**: A token created using the REST API is necessary to use this API. API Access tokens intended for ingest are not allowed.
 
@@ -84,8 +92,8 @@ The `execute()` method accepts the following parameters:
 | Parameter    | Type               | Description                                                                                                     | Default                        | Required |
 |--------------|--------------------|-----------------------------------------------------------------------------------------------------------------|--------------------------------|----------|
 | `program`    | string             | The signalflow program to be run.                                                                               |                                | Yes      |
-| `start`      | int \| string       | A milliseconds-since-epoch number or a string representing a relative time. For example: `-1h`.                 | `now`                          | No       |
-| `stop`       | int \| string       | A milliseconds-since-epoch number or a string representing a relative time. For example: `-30m`.                | `infinity`                     | No       |
+| `start`      | int \| string      | A milliseconds-since-epoch number or a string representing a relative time. For example: `-1h`.                 | `now`                          | No       |
+| `stop`       | int \| string      | A milliseconds-since-epoch number or a string representing a relative time. For example: `-30m`.                | `infinity`                     | No       |
 | `resolution` | int                | The interval across which to calculate, in 1000 millisecond intervals.                                          | `1000`                         | No       |
 | `maxDelay`   | int                | The maximum time to wait for a datapoint to arrive, in 10000 millisecond intervals.                             | `dynamic`                      | No       |
 | `bigNumber`  | boolean            | Sets whether to return all values in data messages as BigNumber objects. Set to true if you require returned values to have precision beyond `MAX_SAFE_INTEGER`. For more information, see [bignumber.js](https://www.npmjs.com/package/bignumber.js). | `false`                        | No       |
@@ -176,7 +184,7 @@ The signalflow client can be built for use in a browser.
    <script src="build/signalflow.js" type="text/javascript"></script>
    ```
 
-   Once loaded, signalfx global is created(window.signalfx). Note that the built file only includes the SignalFlow package.
+   Once loaded, a global ``signalfx`` object is available in the browser. Note that the built file only includes the SignalFlow package.
 
 ## License
 
