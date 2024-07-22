@@ -30,14 +30,8 @@ npm install signalflow
 ### Configure the SignalFlow websocket endpoint
 
 The default realm is ``us0``, unless you manually set the websocket endpoint.
-If you aren't in the ``us0`` realm, you must explicitly set the following
-environment variables:
-
-| Environment variable                          | Endpoint                                        |
-|-----------------------------------------------|-------------------------------------------------|
-| `DEFAULT_INGEST_ENDPOINT`                     | `https://ingest.<realm>.signalfx.com`           |
-| `DEFAULT_API_ENDPOINT`                        | `https://api.<realm>.signalfx.com`              |
-| `DEFAULT_SIGNALFLOW_WEBSOCKET_ENDPOINT`       | `wss://stream.<realm>.signalfx.com`             |
+If you aren't in the ``us0`` realm, you must explicitly add it to the URL
+endpoint. For example, ``https://ingest.us1.signalfx.com``.
 
 To determine which realm you are in:
 
@@ -80,7 +74,7 @@ The `options` object is an optional map and can contain following fields:
 |--------------------------|----------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | `signalflowEndpoint`     | string   | Sets the SignalFlow endpoint.                                             | `wss://stream.us0.signalfx.com`. If you aren't in `us0`, change the realm.                         |
 | `apiEndpoint`            | string   | Sets the API endpoint.                                                    | `https://api.us0.signalfx.com`. If you aren't in `us0`, change the realm.                          |
-| `webSocketErrorCallback` | function | Sets the callback function that is invoked when a WebSocket error occurs. | Throws an error event. If you want to handle the WebSocket error differently, change the behavior. |
+| `webSocketErrorCallback` | function | Sets the callback function that is invoked when a WebSocket error occurs. | Throws the WebSocket error. You can change the behavior to invoke a callback function instead.     |
 
 
 > **Note**: A token created using the REST API is necessary to use this API. API Access tokens intended for ingest are not allowed.
