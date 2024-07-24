@@ -162,6 +162,26 @@ It can then be loaded as usual via a script tag
 
 Once loaded, signalfx global will be created(window.signalfx). Note that only the SignalFlow package is included in this built file.
 
+#### Browser Usage Example using D3
+
+First ensure your current working directory is the root of the repository clone.
+
+Make the following changes to example/index.html:
+
+```
+replace 'ACCESS_TOKEN' with your own token.
+replace 'cpu.utilization' with an appropriate metric as necessary.
+```
+
+Execute the following commands:
+
+```
+$ npm install
+$ node example/server.js
+```
+
+Finally, open http://localhost:8888/example/index.html
+
 ## License
 
 Apache Software License v2 © [Splunk](https://ww.splunk.com)
