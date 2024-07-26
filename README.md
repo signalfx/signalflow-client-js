@@ -74,7 +74,7 @@ The `options` object is an optional map and can contain following fields:
 |--------------------------|----------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | `signalflowEndpoint`     | string   | Sets the SignalFlow endpoint.                                             | `wss://stream.us0.signalfx.com`. If you aren't in `us0`, change the realm.                         |
 | `apiEndpoint`            | string   | Sets the API endpoint.                                                    | `https://api.us0.signalfx.com`. If you aren't in `us0`, change the realm.                          |
-| `webSocketErrorCallback` | function | Sets the callback function that is invoked when a WebSocket error occurs. | Throws the WebSocket error. You can change the behavior to invoke a callback function instead.     |
+| `webSocketErrorCallback` | function | Sets the callback function that is invoked when a WebSocket error occurs. | If a callback function is not set, the WebSocket error is thrown.                                  |
 
 
 > **Note**: A token created using the REST API is necessary to use this API. API Access tokens intended for ingest are not allowed.
