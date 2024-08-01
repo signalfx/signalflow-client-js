@@ -180,6 +180,26 @@ The signalflow client can be built for use in a browser.
 
    Once loaded, a global ``signalfx`` object is available in the browser. Note that the built file only includes the SignalFlow package.
 
+#### Browser Usage Example using D3
+
+First ensure your current working directory is the root of the repository clone.
+
+Make the following changes to example/index.html:
+
+```
+replace 'ACCESS_TOKEN' with your own token.
+replace 'cpu.utilization' with an appropriate metric as necessary.
+```
+
+Execute the following commands:
+
+```
+$ npm install
+$ node example/server.js
+```
+
+Finally, open http://localhost:8888/example/index.html
+
 ## License
 
 Apache Software License v2 © [Splunk](https://www.splunk.com)
