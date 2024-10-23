@@ -46,8 +46,8 @@
     "prepare": "npm run build:browser"
   },
   "engines": {
-    "node": ">=12.10 <=21",
-    "npm": ">=7.0 <10"
+    "node": ">=12.10",
+    "npm": ">=7.0"
   },
   "license": "Apache-2.0"
 }
