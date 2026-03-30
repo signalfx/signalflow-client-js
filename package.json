@@ -12,7 +12,7 @@
   ],
   "main": "lib/signalflow.js",
   "browser": {
-    "lib/signalflow.js": "build/signalflow.min.js"
+    "lib/signalflow.js": "./build/signalflow.min.js"
   },
   "keywords": [
     "signalfx",
