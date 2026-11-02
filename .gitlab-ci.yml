@@ -1,5 +1,5 @@
 default:
-  image: 'cimg/node:lts'
+  image: 'cimg/node:24.22.2'
 
 include:
   - project: 'ci-cd/templates'
